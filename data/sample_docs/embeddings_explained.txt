@@ -1,0 +1,33 @@
+Text embeddings are dense vector representations of text that capture semantic meaning. They are created by machine learning models that have been trained on large text corpora to understand language patterns and relationships.
+
+How embeddings work:
+
+1. Text preprocessing: Clean and tokenize input text
+2. Model encoding: Pass text through a neural network (transformer model)
+3. Vector output: Generate a fixed-size dense vector (typically 256-4096 dimensions)
+4. Semantic capture: Similar texts have similar vector representations
+
+Popular embedding models:
+
+OpenAI:
+- text-embedding-3-small (1536 dimensions)
+- text-embedding-3-large (3072 dimensions) 
+- text-embedding-ada-002 (1536 dimensions)
+
+Google:
+- Universal Sentence Encoder
+- PaLM embeddings
+- Gemini embeddings
+
+Open Source:
+- SentenceTransformers
+- BERT variants
+- E5 models
+
+Applications of embeddings:
+- Semantic search: Find documents by meaning, not just keywords
+- Clustering: Group similar content together
+- Classification: Categorize text based on semantic content
+- Recommendation: Suggest similar items
+- Duplicate detection: Find near-duplicate content
+- Translation: Map between different languages

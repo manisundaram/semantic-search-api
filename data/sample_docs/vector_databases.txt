@@ -1,0 +1,19 @@
+Vector databases are specialized databases designed to store, index, and search high-dimensional vector data efficiently. They are essential for modern AI applications that work with embeddings from machine learning models.
+
+Key capabilities of vector databases:
+
+1. High-dimensional storage: Store vectors with hundreds or thousands of dimensions
+2. Similarity search: Find vectors most similar to a query vector using metrics like cosine similarity
+3. Scalability: Handle millions or billions of vectors efficiently
+4. Filtering: Combine vector similarity with metadata filtering
+5. Real-time updates: Add, update, and delete vectors dynamically
+
+Popular vector databases include Chroma, Pinecone, Weaviate, Qdrant, and Milvus. Each offers different trade-offs in terms of performance, features, and deployment options.
+
+Vector databases enable applications like:
+- Semantic search over documents
+- Recommendation systems
+- Image and video search
+- Question answering systems
+- Content moderation
+- Anomaly detection

@@ -1,0 +1,28 @@
+# FastAPI and server dependencies
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+
+# Pydantic for data validation
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+
+# Embedding providers
+openai>=1.10.0
+google-generativeai>=0.3.0
+
+# Vector database
+chromadb>=0.4.20
+
+# Retry and error handling
+tenacity>=8.2.0
+
+# Development and testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+httpx>=0.25.0
+
+# Optional: Text processing utilities
+tiktoken>=0.5.0
+
+# Optional: Additional text splitting
+langchain-text-splitters>=0.0.1
