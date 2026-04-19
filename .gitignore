@@ -205,3 +205,7 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# ChromaDB - Vector database files (generated data, not source)
+chroma_db/
+*.bin

@@ -19,36 +19,36 @@ This project follows the same provider architecture pattern as the sibling `llm-
 graph TB
     subgraph "FastAPI Application"
         API[FastAPI Router]
-        
+
         subgraph "Health Monitoring System"
-            H1[/health - Quick Status]
-            H2[/diagnostics - Comprehensive Tests]
-            H3[/metrics - Performance Data]
-            H4[/health/simple - Basic Check]
-            H5[/dashboard - Visual Interface]
+            H1["/health - Quick Status"]
+            H2["/diagnostics - Comprehensive Tests"]
+            H3["/metrics - Performance Data"]
+            H4["/health/simple - Basic Check"]
+            H5["/dashboard - Visual Interface"]
         end
-        
+
         subgraph "Core Services"
             EMB[Embedding Service]
             VEC[Vector Store]
             IDX[Document Indexer]
             SEARCH[Search Engine]
         end
-        
+
         subgraph "Provider Layer"
             FACT[Provider Factory]
             OAI[OpenAI Provider]
             GEM[Gemini Provider]
             MOCK[Mock Provider]
         end
-        
+
         subgraph "External Services"
             OAPI[OpenAI API]
             GAPI[Gemini API]
             CHROMA[(ChromaDB)]
         end
     end
-    
+
     API --> H1
     API --> H2
     API --> H3
@@ -57,32 +57,32 @@ graph TB
     API --> EMB
     API --> IDX
     API --> SEARCH
-    
+
     H5 --> H1
     H5 --> H2
     H2 --> FACT
     H2 --> VEC
     H2 --> EMB
-    
+
     EMB --> FACT
     IDX --> EMB
     IDX --> VEC
     SEARCH --> EMB
     SEARCH --> VEC
-    
+
     FACT --> OAI
     FACT --> GEM
     FACT --> MOCK
-    
+
     OAI --> OAPI
     GEM --> GAPI
     VEC --> CHROMA
-    
+
     classDef health fill:#e1f5fe
     classDef core fill:#f3e5f5
     classDef provider fill:#e8f5e8
     classDef external fill:#fff3e0
-    
+
     class H1,H2,H3,H4,H5 health
     class EMB,VEC,IDX,SEARCH core
     class FACT,OAI,GEM,MOCK provider
@@ -206,7 +206,9 @@ The API will be available at `http://localhost:8000` with interactive documentat
 ### Health Monitoring Details
 
 #### Quick Health Check (`/health`)
+
 Returns comprehensive status in ~200ms:
+
 ```json
 {
   "status": "healthy",
@@ -231,7 +233,9 @@ Returns comprehensive status in ~200ms:
 ```
 
 #### Comprehensive Diagnostics (`/diagnostics`)
+
 Performs real API calls and benchmarks (~3-5 seconds):
+
 ```json
 {
   "status": "healthy",
@@ -244,7 +248,7 @@ Performs real API calls and benchmarks (~3-5 seconds):
       "models_available": ["text-embedding-3-small", "text-embedding-3-large"]
     },
     "gemini": {
-      "status": "healthy", 
+      "status": "healthy",
       "duration_ms": 541,
       "test_embedding_dimensions": 3072,
       "models_available": ["models/gemini-embedding-001"]
@@ -252,7 +256,7 @@ Performs real API calls and benchmarks (~3-5 seconds):
   },
   "performance_benchmarks": {
     "single_embedding_ms": "275.8ms",
-    "batch_embedding_ms": "323.9ms", 
+    "batch_embedding_ms": "323.9ms",
     "embedding_throughput": "15.4 texts/sec",
     "vector_search_ms": "12.3ms",
     "status": "completed"
@@ -263,7 +267,7 @@ Performs real API calls and benchmarks (~3-5 seconds):
       "duration_ms": 156,
       "test_steps": {
         "create_collection": "passed",
-        "index_documents": "passed", 
+        "index_documents": "passed",
         "search_similarity": "passed",
         "cleanup": "passed"
       }
@@ -273,9 +277,11 @@ Performs real API calls and benchmarks (~3-5 seconds):
 ```
 
 #### Visual Health Dashboard (`/dashboard`)
+
 Interactive web interface for real-time system monitoring:
 
 **Features:**
+
 - 🎨 **Modern UI**: Glass-morphism design with gradient background and responsive cards
 - 📊 **Real-time Data**: Auto-refreshes every 30 seconds with live health status
 - 🚦 **Status Indicators**: Color-coded status with emoji indicators (🟢 healthy, 🟡 degraded, 🔴 critical)
@@ -283,6 +289,7 @@ Interactive web interface for real-time system monitoring:
 - ⚡ **Fast Loading**: Fetches data from `/health` and `/diagnostics` endpoints
 
 **Dashboard Cards:**
+
 1. **System Health**: API keys, ChromaDB connection, provider status
 2. **Runtime Metrics**: Collections count, response times, vector store status
 3. **API Performance**: Live response times for OpenAI/Gemini APIs with dimensions
@@ -349,7 +356,7 @@ OPENAI_API_KEY=your_openai_key_here
 OPENAI_DEFAULT_MODEL=text-embedding-3-small
 OPENAI_TIMEOUT=30.0
 
-# Gemini settings  
+# Gemini settings
 GEMINI_API_KEY=your_gemini_key_here
 GEMINI_DEFAULT_MODEL=models/gemini-embedding-001
 GEMINI_TIMEOUT=30.0
@@ -361,11 +368,13 @@ USE_MOCK_EMBEDDINGS=false  # Set to true for development without API keys
 ### Available Models
 
 #### OpenAI Models
+
 - `text-embedding-3-small` (1536 dimensions) - Recommended for most use cases
 - `text-embedding-3-large` (3072 dimensions) - Higher quality, more expensive
 - `text-embedding-ada-002` (1536 dimensions) - Legacy model
 
-#### Gemini Models  
+#### Gemini Models
+
 - `models/gemini-embedding-001` (768 dimensions) - Standard embedding model
 - `models/gemini-embedding-2-preview` (768 dimensions) - Preview model with improvements
 
@@ -399,10 +408,10 @@ class CustomEmbeddingProvider(BaseEmbeddingProvider):
     async def embed(self, texts, model=None, **kwargs):
         # Implementation here
         pass
-    
+
     def get_available_models(self):
         return ["custom-model-1", "custom-model-2"]
-    
+
     def validate_config(self):
         # Validate configuration
         pass
@@ -494,12 +503,14 @@ The API provides comprehensive error handling:
 The API includes a comprehensive 4-tier health monitoring system:
 
 ### 1. Basic Health Check (`/health/simple`)
+
 - **Purpose**: Load balancer health checks
 - **Response Time**: ~5-10ms
 - **Format**: Plain text "OK" or "ERROR"
 - **Use Case**: Kubernetes liveness probes, AWS ALB health checks
 
-### 2. Comprehensive Health (`/health`)  
+### 2. Comprehensive Health (`/health`)
+
 - **Purpose**: Detailed system status
 - **Response Time**: ~100-200ms
 - **Features**:
@@ -510,6 +521,7 @@ The API includes a comprehensive 4-tier health monitoring system:
 - **Use Case**: Monitoring dashboards, admin interfaces
 
 ### 3. Full Diagnostics (`/diagnostics`)
+
 - **Purpose**: Deep system validation
 - **Response Time**: ~3-5 seconds
 - **Features**:
@@ -520,8 +532,9 @@ The API includes a comprehensive 4-tier health monitoring system:
 - **Use Case**: Deployment validation, troubleshooting
 
 ### 4. Performance Metrics (`/metrics`)
+
 - **Purpose**: Operational statistics
-- **Response Time**: ~50-100ms  
+- **Response Time**: ~50-100ms
 - **Features**:
   - Request counts by endpoint
   - Response time percentiles
@@ -532,6 +545,7 @@ The API includes a comprehensive 4-tier health monitoring system:
 ### Health Status Logic
 
 The system uses intelligent status determination:
+
 - **healthy**: All components working normally
 - **degraded**: Some issues but service functional (e.g., one provider down)
 - **critical**: Major issues affecting service
@@ -540,6 +554,7 @@ The system uses intelligent status determination:
 ### Monitoring Integration
 
 Perfect for integration with:
+
 - **Prometheus**: Metrics endpoint provides structured data
 - **Grafana**: Create dashboards from health data
 - **DataDog**: Custom metrics and health checks
@@ -567,7 +582,7 @@ async def dashboard():
         <script>
         async function updateHealth() {
             const health = await fetch('/health').then(r => r.json());
-            document.getElementById('health-status').innerHTML = 
+            document.getElementById('health-status').innerHTML =
                 `Status: ${health.status}`;
         }
         setInterval(updateHealth, 30000); // Update every 30s
@@ -575,7 +590,7 @@ async def dashboard():
         </script>
     </body>
     </html>
-    """ 
+    """
 ```
 
 ### Option 2: Streamlit Dashboard
@@ -603,27 +618,27 @@ col1, col2, col3 = st.columns(3)
 with col1:
     st.subheader("System Health")
     health_data = requests.get("http://localhost:8000/health").json()
-    
+
     # Status indicator
     status_color = {"healthy": "🟢", "degraded": "🟡", "critical": "🔴"}
     st.metric("Status", f"{status_color.get(health_data['status'], '⚪')} {health_data['status']}")
-    
+
     st.metric("Uptime", f"{health_data['runtime']['uptime_seconds']}s")
     st.metric("Memory", f"{health_data['runtime']['memory_usage_mb']:.1f} MB")
 
 with col2:
     st.subheader("API Performance")
     diag_data = requests.get("http://localhost:8000/diagnostics").json()
-    
+
     # API test results
     for provider, test in diag_data['api_tests'].items():
-        st.metric(f"{provider.title()} API", f"{test['duration_ms']}ms", 
+        st.metric(f"{provider.title()} API", f"{test['duration_ms']}ms",
                  f"{test['test_embedding_dimensions']} dims")
 
 with col3:
     st.subheader("Performance Benchmarks")
     benchmarks = diag_data['performance_benchmarks']
-    
+
     st.metric("Single Embedding", benchmarks['single_embedding_ms'])
     st.metric("Batch Processing", benchmarks['batch_embedding_ms'])
     st.metric("Throughput", benchmarks['embedding_throughput'])
@@ -641,27 +656,29 @@ if st.button(f"Auto-refresh every {refresh_rate}s"):
 ```
 
 **Setup Requirements**:
+
 ```bash
 pip install streamlit plotly
 ```
 
 **Run Command**:
+
 ```bash
 streamlit run dashboard.py --server.port 8501
 ```
 
 ### Comparison Summary
 
-| Feature | Static HTML | Streamlit |
-|---------|-------------|-----------|
-| Setup Complexity | ⭐ | ⭐⭐⭐ |
-| Real-time Updates | Manual refresh | Auto-refresh |
-| Charts/Graphs | Basic JS charts | Professional Plotly |
-| Styling | Custom CSS | Built-in themes |
-| Interactivity | Limited | Rich widgets |
-| Historical Data | Not included | Easy to add |
-| Mobile Responsive | Manual CSS | Automatic |
-| Development Time | 30 minutes | 2-3 hours |
+| Feature           | Static HTML     | Streamlit           |
+| ----------------- | --------------- | ------------------- |
+| Setup Complexity  | ⭐              | ⭐⭐⭐              |
+| Real-time Updates | Manual refresh  | Auto-refresh        |
+| Charts/Graphs     | Basic JS charts | Professional Plotly |
+| Styling           | Custom CSS      | Built-in themes     |
+| Interactivity     | Limited         | Rich widgets        |
+| Historical Data   | Not included    | Easy to add         |
+| Mobile Responsive | Manual CSS      | Automatic           |
+| Development Time  | 30 minutes      | 2-3 hours           |
 
 **Recommendation**: Start with Static HTML for immediate value, upgrade to Streamlit if you need rich visualizations.
 
