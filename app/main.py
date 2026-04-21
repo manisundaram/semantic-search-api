@@ -1,10 +1,12 @@
 """Main FastAPI application for semantic search API."""
 
+import json
 import logging
 import time
 import uuid
 from contextlib import asynccontextmanager
 from datetime import datetime
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -842,6 +844,69 @@ async def list_collections():
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to list collections: {str(e)}"
+        )
+
+
+# Load TechCorp mock data endpoint
+@app.post("/load-techcorp-data", response_model=IndexResponse)
+async def load_techcorp_data(collection_name: str = "techcorp"):
+    """Load TechCorp mock data for demonstrating metadata filtering."""
+    start_time = time.time()
+    
+    try:
+        # Load mock data from file
+        data_file = Path("data/techcorp_mock_data.json")
+        if not data_file.exists():
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="TechCorp mock data file not found"
+            )
+        
+        with open(data_file, 'r') as f:
+            mock_documents = json.load(f)
+        
+        # Reset the collection so repeated demo runs do not accumulate duplicates
+        vector_store = get_vector_store()
+        vector_store.reset_collection(collection_name)
+        
+        # Index the documents
+        result = await vector_store.index_documents(
+            documents=mock_documents,
+            collection_name=collection_name
+        )
+        
+        # Record metrics
+        duration_ms = int((time.time() - start_time) * 1000)
+        record_operation_time(
+            "indexing", 
+            duration_ms, 
+            doc_count=result["indexed_count"],
+            collection=result["collection_name"]
+        )
+        
+        # Create indexed document details
+        indexed_docs = []
+        for i, doc in enumerate(mock_documents):
+            indexed_docs.append(IndexedDocument(
+                id=f"techcorp-{i+1}",
+                content=doc["content"],
+                metadata=doc["metadata"],
+                chunk_index=None
+            ))
+        
+        return IndexResponse(
+            message=f"Successfully loaded {result['indexed_count']} TechCorp documents",
+            indexed_count=result["indexed_count"],
+            chunk_count=result["indexed_count"],  # Each doc is one chunk for simplicity
+            collection_name=result["collection_name"],
+            documents=indexed_docs
+        )
+    
+    except Exception as e:
+        logger.error(f"Failed to load TechCorp data: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to load TechCorp data: {str(e)}"
         )
 
 

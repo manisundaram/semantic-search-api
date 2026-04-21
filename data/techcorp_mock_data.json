@@ -1,0 +1,118 @@
+[
+  {
+    "content": "Employee handbook section on vacation policy: All full-time employees are eligible for 15 days of paid time off (PTO) per year. PTO accrues at 1.25 days per month. Vacation requests must be submitted at least 2 weeks in advance through the HR portal.",
+    "metadata": {
+      "department": "hr",
+      "document_type": "policy",
+      "access_level": "all",
+      "tags": ["vacation", "pto", "benefits"],
+      "created_date": "2024-01-15",
+      "version": "2024.1"
+    }
+  },
+  {
+    "content": "API authentication guide: All API endpoints require Bearer token authentication. Include the token in the Authorization header: 'Authorization: Bearer YOUR_TOKEN'. Tokens expire after 24 hours and must be refreshed using the /refresh endpoint.",
+    "metadata": {
+      "department": "engineering",
+      "document_type": "technical_guide",
+      "access_level": "engineering",
+      "project": "api-platform",
+      "tags": ["api", "authentication", "security"],
+      "created_date": "2024-02-10",
+      "version": "1.2"
+    }
+  },
+  {
+    "content": "Customer objection handling guide: When prospects say 'your solution is too expensive', respond with value-based positioning. Highlight ROI through automation savings, reduced manual work, and improved efficiency. Provide specific case studies showing 30% cost reduction.",
+    "metadata": {
+      "department": "sales",
+      "document_type": "training",
+      "access_level": "sales",
+      "tags": ["objections", "pricing", "training"],
+      "audience": "external_facing",
+      "created_date": "2024-01-20"
+    }
+  },
+  {
+    "content": "GDPR compliance checklist: When collecting customer data, ensure explicit consent is obtained. Document the legal basis for processing. Implement data retention policies - delete customer data after 3 years of inactivity unless legally required to retain longer.",
+    "metadata": {
+      "department": "legal",
+      "document_type": "compliance",
+      "access_level": "manager",
+      "regulation": "gdpr",
+      "tags": ["privacy", "data", "compliance"],
+      "jurisdiction": "eu",
+      "created_date": "2024-03-01"
+    }
+  },
+  {
+    "content": "New employee onboarding checklist: Day 1 - Complete IT setup, receive laptop and credentials. Day 2 - Meet team members and assigned buddy. Week 1 - Complete mandatory security training. Month 1 - Schedule first performance check-in with manager.",
+    "metadata": {
+      "department": "hr",
+      "document_type": "checklist",
+      "access_level": "all",
+      "tags": ["onboarding", "new_hire", "checklist"],
+      "created_date": "2024-01-10",
+      "version": "2024.1"
+    }
+  },
+  {
+    "content": "Database deployment guide: Use Docker containers for all database deployments. Set up primary-replica configuration for production. Enable automatic backups every 6 hours. Monitor connection pools and query performance through Grafana dashboards.",
+    "metadata": {
+      "department": "engineering",
+      "document_type": "deployment_guide",
+      "access_level": "engineering",
+      "project": "infrastructure",
+      "tags": ["database", "deployment", "docker", "monitoring"],
+      "created_date": "2024-02-15",
+      "version": "1.0"
+    }
+  },
+  {
+    "content": "Sales commission structure: Base commission is 5% on all deals. Bonus commission of 2% for deals over $50K. Additional 1% team bonus when quarterly team targets are exceeded. Commission paid monthly with 30-day delay.",
+    "metadata": {
+      "department": "sales",
+      "document_type": "policy",
+      "access_level": "sales",
+      "tags": ["commission", "compensation", "targets"],
+      "audience": "internal",
+      "created_date": "2024-01-05",
+      "confidential": true
+    }
+  },
+  {
+    "content": "Security incident response plan: Level 1 - Data breach affecting customer PII. Immediately notify legal team and prepare customer communications. Level 2 - System compromise. Isolate affected systems and engage external security firm within 2 hours.",
+    "metadata": {
+      "department": "engineering",
+      "document_type": "security_plan",
+      "access_level": "manager",
+      "tags": ["security", "incident", "response", "data_breach"],
+      "created_date": "2024-03-10",
+      "version": "1.1",
+      "confidential": true
+    }
+  },
+  {
+    "content": "Remote work policy: Employees may work remotely up to 3 days per week with manager approval. Home office stipend of $500 annually for equipment. Required to maintain dedicated workspace and attend all team meetings via video call.",
+    "metadata": {
+      "department": "hr",
+      "document_type": "policy",
+      "access_level": "all",
+      "tags": ["remote_work", "policy", "stipend"],
+      "created_date": "2024-02-01",
+      "version": "2024.1"
+    }
+  },
+  {
+    "content": "Contract negotiation playbook: Standard payment terms are Net 30. For enterprise deals over $100K, offer Net 45 if needed to close. Never accept Net 60 without executive approval. Include auto-renewal clause with 60-day notice period.",
+    "metadata": {
+      "department": "sales",
+      "document_type": "playbook",
+      "access_level": "sales",
+      "tags": ["contracts", "negotiation", "payment_terms"],
+      "audience": "internal",
+      "created_date": "2024-02-20",
+      "confidential": true
+    }
+  }
+]

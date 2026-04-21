@@ -29,9 +29,10 @@ class TestBasicEndpoints:
         response = client.get("/health")
         assert response.status_code == 200
         data = response.json()
-        assert data["status"] in ["healthy", "unhealthy"]
+        assert data["status"] in ["healthy", "degraded", "unhealthy"]
         assert "version" in data
-        assert "provider" in data
+        assert "runtime" in data
+        assert "configuration" in data
     
     def test_models_endpoint(self):
         """Test models listing endpoint."""

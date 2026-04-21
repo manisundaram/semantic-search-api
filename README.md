@@ -184,6 +184,45 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000
 
 The API will be available at `http://localhost:8000` with interactive documentation at `http://localhost:8000/docs`.
 
+## Testing
+
+There are two testing paths in this repo:
+
+### Automated Pytest Suite
+
+Run the pytest suite from the repository root:
+
+```bash
+pytest
+```
+
+This suite is self-contained and uses the FastAPI test client plus mock embeddings. It covers core API behavior in [tests/test_basic.py](tests/test_basic.py) and the TechCorp metadata filtering workflow in [tests/test_techcorp_filtering.py](tests/test_techcorp_filtering.py).
+
+You can also run just the TechCorp tests:
+
+```bash
+pytest tests/test_techcorp_filtering.py -q
+```
+
+### Manual HTTP Smoke Scripts
+
+These scripts hit a running server at `http://localhost:8000`, so start the API first:
+
+```bash
+uvicorn app.main:app --reload --port 8000
+```
+
+Then run any of these:
+
+```bash
+python tests/test_health_system.py
+python tests/test_enhanced_health.py
+python tests/test_final.py
+python tests/test_techcorp_filtering.py
+```
+
+Use the manual scripts when you want end-to-end checks against the live server. Use `pytest` when you want a fast local verification pass that does not depend on an externally running API process.
+
 ## API Endpoints
 
 ### Health Monitoring

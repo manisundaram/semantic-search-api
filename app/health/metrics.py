@@ -23,6 +23,19 @@ class SimpleMetricsCollector:
     
     def __init__(self):
         self.start_time = time.time()
+
+    def record_error(self, error_type: str, provider: str | None = None):
+        """Record an error event.
+
+        The simple collector is intentionally lightweight in test and local
+        environments, so this is a no-op hook that preserves the production
+        call surface.
+        """
+        return None
+
+    def record_collection_created(self, name: str):
+        """Record collection creation events as a no-op."""
+        return None
     
     def get_performance_metrics(self) -> Dict[str, Any]:
         """Get simple performance metrics."""

@@ -67,6 +67,28 @@ class VectorStore:
         )
         
         logger.info(f"Initialized vector store at {self.persist_directory}")
+
+    def reset_collection(self, collection_name: Optional[str] = None) -> str:
+        """Delete and recreate a collection to guarantee a clean state."""
+        name = collection_name or self.default_collection
+
+        if not CHROMADB_AVAILABLE:
+            logger.warning("ChromaDB not available - reset collection skipped")
+            return name
+
+        try:
+            self.client.delete_collection(name)
+            logger.info(f"Deleted existing collection: {name}")
+        except Exception as e:
+            logger.info(f"Collection '{name}' not deleted before reset ({type(e).__name__})")
+
+        self.client.create_collection(
+            name=name,
+            metadata={"created_at": datetime.utcnow().isoformat()}
+        )
+        logger.info(f"Recreated collection: {name}")
+
+        return name
     
     def _get_collection(self, collection_name: Optional[str] = None):
         """Get or create a Chroma collection.
@@ -105,6 +127,39 @@ class VectorStore:
                 logger.debug(f"Failed to record collection creation metric: {metrics_error}")
             
             return collection
+
+    def _normalize_filter_metadata(
+        self,
+        filter_metadata: Optional[Dict[str, Any]]
+    ) -> Optional[Dict[str, Any]]:
+        """Convert incoming metadata filters into Chroma-compatible where clauses."""
+        if not filter_metadata or not isinstance(filter_metadata, dict):
+            return filter_metadata
+
+        logical_operators = {"$and", "$or"}
+        if any(key in logical_operators for key in filter_metadata):
+            normalized_filters = {}
+            for key, value in filter_metadata.items():
+                if key in logical_operators and isinstance(value, list):
+                    normalized_filters[key] = [
+                        self._normalize_filter_metadata(item) if isinstance(item, dict) else item
+                        for item in value
+                    ]
+                else:
+                    normalized_filters[key] = value
+            return normalized_filters
+
+        clauses = []
+        for key, value in filter_metadata.items():
+            if isinstance(value, dict) and any(str(operator).startswith("$") for operator in value):
+                clauses.append({key: value})
+            else:
+                clauses.append({key: {"$eq": value}})
+
+        if len(clauses) == 1:
+            return clauses[0]
+
+        return {"$and": clauses}
     
     async def index_documents(
         self,
@@ -264,7 +319,7 @@ class VectorStore:
         
             # Add metadata filter if provided
             if filter_metadata:
-                search_params["where"] = filter_metadata
+                search_params["where"] = self._normalize_filter_metadata(filter_metadata)
         
             # Perform search
             results = collection.query(**search_params)

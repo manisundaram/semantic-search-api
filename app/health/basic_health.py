@@ -125,16 +125,15 @@ def _check_mock_health() -> MockHealthCheck:
     performance_acceptable = True
     
     try:
-        from ..embeddings import generate_mock_embeddings
+        from ..embeddings import create_mock_embedding
         
         # Test mock embedding generation
         mock_start = time.time()
-        result = generate_mock_embeddings(["test text"], model="test-model")
+        embedding = create_mock_embedding("test text")
         mock_duration = time.time() - mock_start
         
-        if hasattr(result, 'embeddings') and len(result.embeddings) == 1:
+        if embedding:
             embeddings_working = True
-            embedding = result.embeddings[0]
             if len(embedding) == 1536:  # Standard dimension
                 dimensions_correct = True
         
